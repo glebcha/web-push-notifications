@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Push Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body style="text-align: center;">
+    <h1>Web Push Dev Env</h1>
+    <div style="font-size: 16px; margin: 15px 0;">
+        <button id="safari" type="button" style="font-size: 16px;">Test Push Request</button>
+    </div>
+    <script src="web-push-installer.js"></script>
+    <script text="text/javascript">
+        const { PushInstaller } = window['web-push-installer'];
+
+        function assertInfoNode(message) {
+            let p = document.createElement('p');
+
+            p.innerHTML = message;
+            p.style.color = 'green';
+    
+            document.body.appendChild(p);
+        }
+
+        function showParams() {
+            for (let key in localStorage) {
+                if (key.indexOf('web_push_lib') > -1) {
+                    let p = document.createElement('p');
+
+                    p.style.margin = '0 auto';
+                    p.style.width = '350px';
+                    p.style.whiteSpace = 'nowrap';
+                    p.style.textOverflow = 'ellipsis';
+                    p.style.overflow = 'hidden';
+                    p.innerHTML = `<span style="font-weight: bold; color: blue;">${key}:</span> ${localStorage[key]}`;
+                    
+                    document.body.appendChild(p);
+                }
+            }
+        }
+
+        function handleSWBroadcast({ data }) {
+            console.info(`SW_MESSAGE ====>\n type: ${data.type}\n payload: ${data.payload}`);
+        }
+
+        window.addEventListener('load', () => {
+            showParams();
+            PushInstaller.subscribeSWBroadcast(handleSWBroadcast);
+            PushInstaller.broadcastSW({ type: 'web_push_lib_show_notification', payload: JSON.stringify({ title: 'TEST' }) });        
+        });
+
+        document.getElementById('safari').addEventListener('click', () => {
+            PushInstaller.registerSW();
+        })
+
+        document.addEventListener('web_push_lib_notifications_accepted', () => assertInfoNode('Notifications Accept Event Fired'));
+    </script>
+</body>
+
+</html>

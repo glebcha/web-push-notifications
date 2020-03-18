@@ -1,0 +1,19 @@
+build
+public/**/*.js
+public/**/*.ts
+public/**/*.map
+node_modules
+
+# Logs
+*.log 
+*.log-* 
+*.log_* 
+*.log.* 
+
+# Editor
+.idea
+.vscode
+
+# mac os
+.DS_Store
+.old
