@@ -20,7 +20,7 @@
     "docs": "typedoc --out docs --readme none --target ES6 --mode file ./src"
   },
   "dependencies": {
-    "nanoid": "^2.1.7"
+    "nanoid": "^3.1.31"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
